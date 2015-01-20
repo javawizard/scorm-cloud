@@ -67,6 +67,7 @@ module ScormCloud
     # Get plain response body and parse the XML doc
     def execute_call_xml(url)
       doc = REXML::Document.new(execute_call_plain(url))
+      raise "DOC IS MISSING STUFF: #{begin x = ''; doc.write(x, 2); x end}" unless doc.elements["rsp"]
       raise RequestError.new(doc, url) unless doc.elements["rsp"].attributes["stat"] == "ok"
       doc
     end
